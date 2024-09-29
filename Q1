@@ -1,0 +1,92 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Base class Vehicle
+class Vehicle {
+protected:
+    string make;
+    int year;
+    float fuel;
+
+public:
+    // Constructor
+    Vehicle(string mk, int yr, float fl) : make(mk), year(yr), fuel(fl) {}
+
+    // Refuel method
+    void refuel(float amount) {
+        fuel += amount;
+        cout << make << " refueled by " << amount << " liters. Current fuel: " << fuel << " liters." << endl;
+    }
+
+    // Virtual display method to show vehicle details
+    virtual void display() const {
+        cout << "Make: " << make << ", Year: " << year << ", Fuel: " << fuel << " liters" << endl;
+    }
+
+    // Virtual destructor to ensure proper cleanup in derived classes
+    virtual ~Vehicle() {}
+};
+
+// Derived class Car
+class Car : public Vehicle {
+private:
+    int doors;
+
+public:
+    // Constructor
+    Car(string mk, int yr, float fl, int dr) : Vehicle(mk, yr, fl), doors(dr) {}
+
+    // Override the display method to show car-specific details
+    void display() const override {
+        cout << "Car - Make: " << make << ", Year: " << year << ", Fuel: " << fuel << " liters, Doors: " << doors << endl;
+    }
+
+    // Method to simulate opening doors
+    void openDoors() const {
+        cout << "Doors are opened." << endl;
+    }
+};
+
+// Derived class Bike
+class Bike : public Vehicle {
+private:
+    bool hasCarrier;
+
+public:
+    // Constructor
+    Bike(string mk, int yr, float fl, bool carrier) : Vehicle(mk, yr, fl), hasCarrier(carrier) {}
+
+    // Override the display method to show bike-specific details
+    void display() const override {
+        cout << "Bike - Make: " << make << ", Year: " << year << ", Fuel: " << fuel << " liters, Has carrier: " 
+             << (hasCarrier ? "Yes" : "No") << endl;
+    }
+
+    // Method to simulate kick-starting the bike
+    void kickStart() const {
+        cout << "Bike kick-started." << endl;
+    }
+};
+
+// Main function to demonstrate functionality
+int main() {
+    // Create a Car object
+    Car myCar("Toyota", 2020, 50.0f, 4);
+    // Create a Bike object
+    Bike myBike("Yamaha", 2019, 15.0f, true);
+
+    // Refuel both vehicles
+    myCar.refuel(10.0f); // Refuel car by 10 liters
+    myBike.refuel(5.0f); // Refuel bike by 5 liters
+
+    // Display details of both vehicles
+    myCar.display();
+    myBike.display();
+
+    // Call specific methods
+    myCar.openDoors();   // Car-specific method
+    myBike.kickStart();  // Bike-specific method
+
+    return 0;
+}
